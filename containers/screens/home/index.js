@@ -5,50 +5,53 @@ import {
   Button,
   TouchableOpacity,
   StyleSheet,
-  Platform
+  Platform,
+  Alert
 } from 'react-native';
-import DateTimePicker from '@react-native-community/datetimepicker';
-// import FontAwesome, { Icons } from 'react-native-fontawesome';
-
+import InputTime from '../../components/input-time';
+import Icon from 'react-native-vector-icons/Ionicons';
 function HomeScreen ({ navigation }) {
-  const [isPickerShow, setIsPickerShow] = useState(false);
-  const [time, setTime] = useState(new Date(Date.now()));
-
-  const showPicker = () => {
-    setIsPickerShow(true);
-  };
-
-  const onChange = (event, value) => {
-    setTime(value);
-    if (Platform.OS === 'android') {
-      setIsPickerShow(false);
-    }
-  };
+  
   return (
     <View style={styles.container}>
-      {/* Display the selected date */}
-      <View style={styles.pickedDateContainer}>
-        <Text style={styles.pickedDate}>{time.toUTCString()}</Text>
-      </View>
-
-      {/* The button that used to trigger the date picker */}
-      {!isPickerShow && (
-        <View style={styles.btnContainer}>
-          <Button title="Show Picker" color="purple" onPress={showPicker} />
+      <View style={styles.inputContainer}>
+        <View style={styles.labelContainer}>
+          <Text style={styles.labelTime}>Seleccione hora de encendido</Text>
         </View>
-      )}
-
-      {/* The date picker */}
-      {isPickerShow && (
-        <DateTimePicker
-          value={time}
-          mode={'time'}
-          display={Platform.OS === 'ios' ? 'spinner' : 'default'}
-          is24Hour={true}
-          onChange={onChange}
-          style={styles.datePicker}
-        />
-      )}
+        <View style={styles.inputTimeContainer}>
+          <InputTime />
+        </View>
+      </View>
+      <View style={styles.inputContainer}>
+        <View style={styles.labelContainer}>
+          <Text style={styles.labelTime}>Seleccione hora de apagado</Text>
+        </View>
+        <View style={styles.inputTimeContainer}>
+          <InputTime />
+        </View>
+      </View>
+      <View style={styles.inputContainer}>
+        <View style={styles.labelContainer}>
+          <Text style={styles.labelTime}>Automático</Text>
+        </View>
+        <View style={styles.inputTimeContainer}>
+          
+        </View>
+      </View>
+      <View style={styles.inputContainer}>
+        <View style={styles.iconTimeButtonContainer}>
+            {/* Icon.Button Component */}
+            <Icon.Button
+                style={styles.iconTimeButton}
+                title="Guardar cambios"
+                name="save-outline"
+                backgroundColor="#eee"
+                color="grey"
+                onPress={() => Alert.alert("Save button pressed")}>
+                  <Text style={{fontFamily: 'Arial', fontSize: 15, color: '#000'}}>Guardar cambios</Text> 
+            </Icon.Button>
+        </View>
+      </View>
     </View>
   );
 }
@@ -57,31 +60,29 @@ export default HomeScreen;
 
 const styles = StyleSheet.create({
   container: {
-    display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
     flex: 1,
     justifyContent: 'center',
-    padding: 50,
   },
-  pickedDateContainer: {
-    padding: 20,
-    backgroundColor: '#eee',
-    borderRadius: 10,
-  },
-  pickedDate: {
-    fontSize: 18,
-    color: 'black',
-  },
-  btnContainer: {
-    padding: 30,
-  },
-  // This only works on iOS
-  datePicker: {
-    width: 320,
-    height: 260,
-    display: 'flex',
+  inputContainer: {
+    alignItems: 'center',
+    flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'flex-start',
+    flex: 1,
+    padding: 10,
+  },
+  inputTimeContainer: {
+    flex: 2,
+    marginLeft: 10,
+    justifyContent: 'center',
+    /* borrar */
+    height: 50,
+  },
+  labelContainer: {
+    flex: 2,
+    marginLeft: 10,
+  },
+  labelTime: {
+    textAlign: 'right',
   },
 });
